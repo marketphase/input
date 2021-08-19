@@ -12,7 +12,7 @@ class BaseNode extends \Linio\Component\Input\Node\BaseNode
 {
     use ChecksForErrors;
 
-    public function __construct(protected string $fieldMissingMessage = '%s is required')
+    public function __construct(protected string $fieldMissingMessage = '')
     {
     }
 
@@ -42,7 +42,7 @@ class BaseNode extends \Linio\Component\Input\Node\BaseNode
         foreach ($this->getChildren() as $field => $config) {
             if (!array_key_exists($field, $input)) {
                 if ($config->isRequired()) {
-                    $result[$field] = new Missing($field, sprintf($config->getFieldMissingMessage(), $field));
+                    $result[$field] = new Missing($field, $config->getFieldMissingMessage());
                 }
 
                 if (!$config->hasDefault()) {
