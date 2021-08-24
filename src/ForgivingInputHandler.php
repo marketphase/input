@@ -74,8 +74,6 @@ abstract class ForgivingInputHandler extends InputHandler
 
     private function findError(string $index, $output): ?InputError
     {
-//        dump("checking if $index is_a InputError in: ");
-//        dump($output);
         if (is_a($output, InputError::class)) {
             return $output;
         }
