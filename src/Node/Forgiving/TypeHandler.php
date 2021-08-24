@@ -3,10 +3,6 @@
 namespace Linio\Component\Input\Node\Forgiving;
 
 use Linio\Component\Input\Instantiator\SetInstantiator;
-use Linio\Component\Input\Node\BaseNode;
-use Linio\Component\Input\Node\CollectionNode;
-use Linio\Component\Input\Node\ObjectNode;
-use Linio\Component\Input\Node\ScalarCollectionNode;
 
 class TypeHandler extends \Linio\Component\Input\TypeHandler
 {
@@ -47,7 +43,7 @@ class TypeHandler extends \Linio\Component\Input\TypeHandler
         }
 
         if ($this->isClassType($name)) {
-            $type = new \Linio\Component\Input\Node\Forgiving\ObjectNode();
+            $type = new ObjectNode();
             $type->setType($name);
             $type->setTypeAlias('object');
             $type->setTypeHandler($this);
