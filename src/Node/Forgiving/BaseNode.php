@@ -108,8 +108,9 @@ class BaseNode extends \Linio\Component\Input\Node\BaseNode
         return $this->fieldMissingMessage;
     }
 
-    public function setFieldMissingMessage(string $fieldMissingMessage): void
+    public function setFieldMissingMessage(string $fieldMissingMessage): self
     {
         $this->fieldMissingMessage = $fieldMissingMessage;
+        return $this;
     }
 }
