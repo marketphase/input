@@ -37,6 +37,19 @@ abstract class ForgivingInputHandler extends InputHandler
         return !$this->hasErrorFor($index) && parent::hasData($index);
     }
 
+    public function getData($index = null)
+    {
+        if ($this->hasErrorFor($index)) {
+            throw new \RuntimeException("Cannot get data for an input ($index) that had an error");
+        }
+
+        if ($index) {
+            return $this->output[$index];
+        }
+
+        return $this->output;
+    }
+
     public function bind(array $input): void
     {
         $this->define();
