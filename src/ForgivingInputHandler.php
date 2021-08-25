@@ -101,6 +101,14 @@ abstract class ForgivingInputHandler extends InputHandler
         return null;
     }
 
+    /**
+     * @return InputError[]
+     */
+    public function getErrors(): array
+    {
+        return array_filter($this->output, fn ($value) => is_a($value, InputError::class));
+    }
+
     private function findError(string $index, $output): ?InputError
     {
         if (is_a($output, InputError::class)) {
