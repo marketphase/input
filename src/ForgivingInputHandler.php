@@ -126,9 +126,6 @@ abstract class ForgivingInputHandler extends InputHandler
         if (is_a($output[$index], InputError::class)) {
             return $output[$index];
         }
-        if (is_array($output[$index]) && $this->containsError($output)) {
-            return new Invalid($index, array_filter($output, fn ($item) => is_a($item, InputError::class)));
-        }
         $errors = [];
         if (is_array($output[$index])) {
             foreach ($output[$index] as $childIndex => $childOutput) {
@@ -141,6 +138,10 @@ abstract class ForgivingInputHandler extends InputHandler
         if (!empty($errors)) {
             return new Invalid($index, $errors);
         }
+        if (is_array($output[$index]) && $this->containsError($output)) {
+            return new Invalid($index, array_filter($output, fn ($item) => is_a($item, InputError::class)));
+        }
+
         return null;
     }
 
