@@ -52,7 +52,7 @@ abstract class ForgivingInputHandler extends InputHandler
 
     public function isValid(): bool
     {
-        if ($this->isValid() === null) {
+        if ($this->isValid === null) {
             throw new \RuntimeException("Cannot determine the validity of an unbound input handler");
         }
         return $this->isValid;
