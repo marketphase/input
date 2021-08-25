@@ -30,6 +30,8 @@ abstract class ForgivingInputHandler extends InputHandler
      */
     protected $root;
 
+    protected ?bool $isValid = null;
+
     public function hasData($index): bool
     {
         return !$this->hasErrorFor($index) && parent::hasData($index);
@@ -40,6 +42,20 @@ abstract class ForgivingInputHandler extends InputHandler
         $this->define();
 
         $this->output = $this->root->getValue('root', $this->root->walk($input));
+        $this->isValid = true;
+        foreach ($this->output as $key => $value) {
+            if ($this->hasErrorFor($key)) {
+                $this->isValid = false;
+            }
+        }
+    }
+
+    public function isValid(): bool
+    {
+        if ($this->isValid() === null) {
+            throw new \RuntimeException("Cannot determine the validity of an unbound input handler");
+        }
+        return $this->isValid;
     }
 
     public function hasErrorFor($index): bool
