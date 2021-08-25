@@ -73,6 +73,9 @@ abstract class ForgivingInputHandler extends InputHandler
 
     public function hasErrorFor($index): bool
     {
+        if (!array_key_exists($index, $this->output)) {
+            return false;
+        }
         if (!is_array($this->output[$index])) {
             return $this->output[$index] instanceof InputError;
         }
