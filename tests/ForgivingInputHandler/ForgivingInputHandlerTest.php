@@ -1,7 +1,10 @@
 <?php
 
-namespace Linio\Component\Input;
+namespace Linio\Component\Input\ForgivingInputHandler;
 
+use Linio\Component\Input\ForgivingInputHandler;
+use Linio\Component\Input\Invalid;
+use Linio\Component\Input\Missing;
 use PHPUnit\Framework\TestCase;
 
 class Simple {
