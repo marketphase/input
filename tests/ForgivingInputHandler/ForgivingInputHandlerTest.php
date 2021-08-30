@@ -11,25 +11,23 @@ class ForgivingInputHandlerTest extends TestCase
 {
     public function testNestedErrorIsFound()
     {
-
-        $inputHandler = new NestedInputHandler();
+        $inputHandler = new CompanyInputHandler();
         $inputHandler->bind([
-            'key1' => 'value1',
-            'key2' => [
-                'child1' => 'childVal1',
-                'child2' => 'childVal2',
+            'action' => 'found',
+            'ceo' => [
+                'firstName' => 'John',
+                'lastName' => 'Doe',
             ],
-            'key3' => [
-                'child3' => [
-                    'child1' => 'childVal1',
-//                    'child2' => 'childVal2',
+            'company' => [
+                'ceo' => [
+                    'firstName' => 'John',
                 ],
-                'child4' => 'childVal4',
+                'branch' => 'IT',
             ],
         ]);
         self::assertFalse($inputHandler->hasErrorFor('key1'));
         self::assertFalse($inputHandler->hasErrorFor('key2'));
-        self::assertTrue($inputHandler->hasErrorFor('key3'));
+        self::assertTrue($inputHandler->hasErrorFor('company'));
     }
 
     public function testAllowsIncompleteInput()
@@ -110,22 +108,21 @@ class ForgivingInputHandlerTest extends TestCase
 
     public function testReasonArray()
     {
-        $inputHandler = new NestedInputHandler();
+        $inputHandler = new CompanyInputHandler();
         $inputHandler->bind([
-            'key1' => 'value1',
-            'key2' => [
-                'child1' => 'childVal1',
-                'child2' => 'childVal2',
+            'action' => 'found',
+            'ceo' => [
+                'firstName' => 'John',
+                'lastName' => 'Doe',
             ],
-            'key3' => [
-                'child3' => [
-                    'child1' => 'childVal1',
-//                    'child2' => 'childVal2',
+            'company' => [
+                'ceo' => [
+                    'firstName' => 'John',
                 ],
-                'child4' => 'childVal4',
+                'branch' => 'IT',
             ],
         ]);
-        $reasonArray = $inputHandler->getErrorFor('key3')->getReason();
+        $reasonArray = $inputHandler->getErrorFor('company')->getReason();
         self::assertEquals(['child3' => ['child2' => 'We need input for a second child']], $reasonArray);
     }
 }
