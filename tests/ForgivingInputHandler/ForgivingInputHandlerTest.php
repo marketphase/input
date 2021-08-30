@@ -7,53 +7,6 @@ use Linio\Component\Input\Invalid;
 use Linio\Component\Input\Missing;
 use PHPUnit\Framework\TestCase;
 
-class Simple {
-    public string $child1;
-    public string $child2;
-
-    public function setChild1(string $val)
-    {
-        $this->child1 = $val;
-    }
-
-    public function setChild2(string $val)
-    {
-        $this->child2 = $val;
-    }
-}
-
-class Complex {
-    public Simple $child3;
-    public string $child4;
-
-    public function setChild3(Simple $val)
-    {
-        $this->child3 = $val;
-    }
-
-    public function setChild4(string $val)
-    {
-        $this->child4 = $val;
-    }
-}
-
-class NestedInputHandler extends ForgivingInputHandler {
-    public function define()
-    {
-        $this->add('key1', 'string');
-        $key2 = $this->add('key2', Simple::class);
-        $key2->add('child1', 'string');
-        $key2->add('child2', 'string');
-
-        $key3 = $this->add('key3', Complex::class);
-        $child3 = $key3->add('child3', Simple::class);
-        $child3->add('child1', 'string');
-        $c2 = $child3->add('child2', 'string');
-        $c2->setFieldMissingMessage('We need input for a second child');
-        $key3->add('child4', 'string');
-    }
-}
-
 class ForgivingInputHandlerTest extends TestCase
 {
     public function testNestedErrorIsFound()
