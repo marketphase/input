@@ -4,16 +4,28 @@ declare(strict_types=1);
 
 namespace Linio\Component\Input\Node\Forgiving;
 
-//TODO: update this class to actually be forgiving
+use Linio\Component\Input\Constraint\Type;
+use Linio\Component\Input\ScalarCollectionItemInvalid;
+
 class ScalarCollectionNode extends BaseNode
 {
-    public function __construct()
+    public function __construct(public string $itemInvalidMessage = 'This item is invalid')
     {
-        throw new \RuntimeException("This class needs to be adapted before it can be constructed");
+        parent::__construct();
+        $this->addConstraint(new Type('array'));
     }
 
     public function getValue(string $field, $value)
     {
-        //TODO: implement this method
+        $this->checkConstraints($field, $value);
+
+        $values = [];
+        foreach ($value as $index => $scalarValue) {
+            $values[] = call_user_func('is_' . $this->type, $scalarValue)
+                ? $scalarValue
+                : new ScalarCollectionItemInvalid($index, $field, $this->itemInvalidMessage);
+        }
+
+        return $values;
     }
 }
