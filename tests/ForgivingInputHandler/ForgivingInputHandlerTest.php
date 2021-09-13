@@ -99,4 +99,87 @@ class ForgivingInputHandlerTest extends TestCase
             "Expected the reason string to be '[key2] Value does not match type: string', got $reasonString"
         );
     }
+
+    public function testCollectionItemMissingErrorIsFound()
+    {
+        $inputHandler = new class () extends ForgivingInputHandler {
+            public function define()
+            {
+                $ceos = $this->add('ceos', CEO::class . '[]');
+                $ceos->add('firstName', 'string');
+                $ceos->add('lastName', 'string');
+            }
+        };
+        $input = [
+            'ceos' =>
+                [
+                    [
+                        'firstName' => 'John',
+                        'lastName' => 'Doe',
+                    ],
+                    [
+                        'firstName' => 'Jane',
+                    ],
+                    [
+                        'firstName' => 'Jack',
+                        'lastName' => 'Jones',
+                    ],
+                ]
+        ];
+        $inputHandler->bind($input);
+        $errorForCeos = $inputHandler->getErrorFor('ceos');
+        $this->assertInstanceOf(Invalid::class, $errorForCeos);
+        $this->assertEquals('ceos', $errorForCeos->field);
+        $this->assertEquals(
+            [
+                '1' =>
+                    [
+                        'lastName' => 'This field is required'
+                    ]
+            ],
+            $errorForCeos->getReason()
+        );
+    }
+
+    public function testCollectionItemInvalidIsFound()
+    {
+        $inputHandler = new class () extends ForgivingInputHandler {
+            public function define()
+            {
+                $ceos = $this->add('ceos', CEO::class . '[]');
+                $ceos->add('firstName', 'string');
+                $ceos->add('lastName', 'string');
+            }
+        };
+        $input = [
+            'ceos' =>
+                [
+                    [
+                        'firstName' => 'John',
+                        'lastName' => 'Doe',
+                    ],
+                    [
+                        'firstName' => 'Jane',
+                        'lastName' => 403,
+                    ],
+                    [
+                        'firstName' => 'Jack',
+                        'lastName' => 'Jones',
+                    ],
+                ]
+        ];
+        $inputHandler->bind($input);
+        $errorForCeos = $inputHandler->getErrorFor('ceos');
+        $this->assertInstanceOf(Invalid::class, $errorForCeos);
+        $this->assertEquals('ceos', $errorForCeos->field);
+        $this->assertEquals(
+            [
+                '1' =>
+                    [
+                        'lastName' => '[lastName] Value does not match type: string'
+                    ]
+            ],
+            $errorForCeos->getReason()
+        );
+    }
 }
