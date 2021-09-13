@@ -182,4 +182,25 @@ class ForgivingInputHandlerTest extends TestCase
             $errorForCeos->getReason()
         );
     }
+
+    public function testScalarCollectionContainsInvalids()
+    {
+        $inputHandler = new class () extends ForgivingInputHandler {
+            public function define()
+            {
+                $this->add('names', 'string[]');
+            }
+        };
+        $input = [
+            'names' => [
+                'John',
+                'Jake',
+                'Jerry',
+                10,
+            ]
+        ];
+        $inputHandler->bind($input);
+
+        $this->assertEquals(['names' => [3 => 'This item is invalid']], $inputHandler->getErrorFor('names')->getReason());
+    }
 }
