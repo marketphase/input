@@ -11,9 +11,12 @@ use Linio\Component\Input\Exception\InvalidConstraintException;
 use Linio\Component\Input\Transformer\DateTimeTransformer;
 use Linio\Component\Input\TypeHandler;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 class BaseNodeTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function testIsAddingChildNode(): void
     {
         $typeHandler = $this->prophesize(TypeHandler::class);

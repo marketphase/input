@@ -9,9 +9,12 @@ use Linio\Component\Input\Exception\InvalidConstraintException;
 use Linio\Component\Input\Instantiator\InstantiatorInterface;
 use Linio\Component\Input\TypeHandler;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 class ObjectNodeTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function testIsGettingValue(): void
     {
         $expectedInput = ['timestamp' => 1389312000];
