@@ -29,6 +29,9 @@ class ObjectNode extends BaseNode
             return $value;
         }
 
-        return $this->instantiator->instantiate($this->type, $value);
+        return $this->instantiator->instantiate(
+            $this->type,
+            is_array($value) ? $value : [$value]
+        );
     }
 }

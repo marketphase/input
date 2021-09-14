@@ -36,7 +36,10 @@ class CollectionNode extends BaseNode
                 continue;
             }
 
-            $items[] = $this->instantiator->instantiate($this->type, $collectionValue);
+            $items[] = $this->instantiator->instantiate(
+                $this->type,
+                is_array($collectionValue) ? $collectionValue : [$collectionValue]
+            );
         }
 
         return $items;
