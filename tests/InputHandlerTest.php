@@ -11,6 +11,7 @@ use Linio\Component\Input\Constraint\StringSize;
 use Linio\Component\Input\Instantiator\InstantiatorInterface;
 use Linio\Component\Input\Instantiator\PropertyInstantiator;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 class TestUser
 {
@@ -161,6 +162,8 @@ class TestInputHandlerCascade extends InputHandler
 
 class InputHandlerTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function testIsHandlingBasicInput(): void
     {
         $input = [

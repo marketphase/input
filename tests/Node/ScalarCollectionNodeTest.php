@@ -8,9 +8,12 @@ use Linio\Component\Input\Constraint\ConstraintInterface;
 use Linio\Component\Input\Exception\InvalidConstraintException;
 use Linio\Component\Input\TypeHandler;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 class ScalarCollectionNodeTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function testIsGettingValue(): void
     {
         $typeHandler = $this->prophesize(TypeHandler::class);
